@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+* { padding: 0; margin: 0; }
+body{ 
+    background-color : rgb(255, 255, 255);
+    font-family: Helvetica;
+    color: rgb(39, 39, 41);
+}
+
+.TopBar{
+    background-color : rgb(39, 39, 41);
+    color: rgb(255, 255, 255);
+}
