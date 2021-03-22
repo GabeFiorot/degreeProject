@@ -12,17 +12,34 @@
       <label>
         Start Time:
       </label>
-      <input type="number" name="start" id="start" />
+      <input type="time" name="start" id="start" />
     </div>
     <div>
       <label>
         End Time:
       </label>
-      <input type="number" name="end" id="end" />
+      <input type="time" name="end" id="end" />
+    </div>
+    <div>
+      <label>
+        Room Information:
+      </label>
+      <input type="number" name="roomwidth" id="roomwidth" placeholder="room width"/>
+      <input type="number" name="roomheight" id="roomheight" placeholder="room height" />
     </div>
     <div>
       <button type="submit">Upload</button>
     </div>
   </form>
+
+  <div>
+    <h2>List display</h2>
+    <ul class="listdisplay">
+      <li *ngFor='let value of list'>
+        <span class="listout">{{value}}</span>
+      </li>
+    </ul>
+    <button (click)="onClick()">Add number</button>
+  </div>
 </div>
 

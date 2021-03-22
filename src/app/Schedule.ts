@@ -1,5 +1,9 @@
+import {Room} from "./Room";
+import {SchedulePeriod} from "./SchedulePeriod";
 export class Schedule{
-    startTime: any;
-    endTime: any;
-    name: any;
+    
+    name: String;
+    periods: SchedulePeriod[];
+    room: Room;
+
 }
