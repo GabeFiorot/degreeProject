@@ -1,6 +1,6 @@
 export class Room{
 
-    roomwidth: number;
+    roomWidth: number;
     roomHeight: number;
-    
+
 }

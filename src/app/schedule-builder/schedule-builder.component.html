@@ -8,18 +8,7 @@
       </label>
       <input type="text" name="nameInput" id="nameInput" />
     </div>
-    <div>
-      <label>
-        Start Time:
-      </label>
-      <input type="time" name="start" id="start" />
-    </div>
-    <div>
-      <label>
-        End Time:
-      </label>
-      <input type="time" name="end" id="end" />
-    </div>
+
     <div>
       <label>
         Room Information:
@@ -33,10 +22,19 @@
   </form>
 
   <div>
-    <h2>List display</h2>
-    <ul class="listdisplay">
-      <li *ngFor='let value of list'>
-        <span class="listout">{{value}}</span>
+    <h2>Schedule Editor</h2>
+    <ul class="ScheduleDisplay">
+      <input type="text" name="scheduleName" id="scheduleName" value={{sched.name}}/>
+      <label>Room Information</label>
+      <input type="number" name="roomW" id="roomW" value={{sched.room.roomWidth}}/>
+      <input type="number" name="roomH" id="roomH" value={{sched.room.roomHeight}}/>
+      <li *ngFor='let period of sched.periods'>
+          <label>Start</label>
+          <input type="time" name=startTime{{period.id}} 
+          id=startTime{{period.id}} value={{makeTime(period.startTime)}}/>
+          <label>End</label>
+          <input type="time" name=endTime{{period.id}} 
+          id=endTime{{period.id}} value={{makeTime(period.endTime)}}/>
       </li>
     </ul>
     <button (click)="onClick()">Add number</button>
