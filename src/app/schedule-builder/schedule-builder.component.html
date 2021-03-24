@@ -39,5 +39,48 @@
     </ul>
     <button (click)="onClick()">Add number</button>
   </div>
+  <button (click)="getSchedule()">Get Schedule</button>
+
+
+
+<!-- Actual Form Stuff Below -->
+
+
+
+  <form [formGroup]="scheduleForm" (ngSubmit)="onFormSubmit()" >
+  
+    <label>
+      First Name:
+      <input type="text" formControlName="scheduleName" required>
+    </label>
+
+    <div formGroupName="room">
+      <h3>Address</h3>
+      <label>
+        Room Width:
+        <input type="number" formControlName="roomWidth">
+      </label>
+      <label>
+        Room Height:
+        <input type="number" formControlName="roomHeight">
+      </label>
+    </div>
+
+    <div formArrayName="periods" *ngFor="let period of scheduleForm.get('periods')['controls']; let i = index">
+        <!-- The repeated alias template -->
+        <div [formGroupName]="i">
+          {{i}}
+          period name :
+          <input formControlName="startTime" type="time">
+          <input formControlName="endTime"  type="time">
+          <button type="button" (click)="deletePeriod(i)">X</button>
+        </div>
+    </div>
+    <p>
+      <button type="button" (click)="addNewPeriod()">add</button>
+    </p>
+    <button type="submit" [disabled]="!scheduleForm.valid">Submit</button>
+  </form>
+
 </div>
 

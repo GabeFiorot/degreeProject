@@ -2,7 +2,10 @@ import { Time } from "@angular/common";
 
 export class SchedulePeriod{
 
-    id: number;
+    id?: number;
     startTime: Time;
     endTime: Time;
+    intensity?: number;
+    
+
 }
