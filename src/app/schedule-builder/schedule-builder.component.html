@@ -16,56 +16,6 @@
   </p>
   <br>
 </div>
-<!--
-<h1>Fake Create Schedule</h1>
-<h2>Create Schedule</h2>
-<div>
-  <form (ngSubmit)="onSubmit($event)">
-    <div>
-      <label>
-        nope:
-      </label>
-      <input type="text" name="nameInput" id="nameInput" />
-    </div>
-
-    <div>
-      <label>
-        not room info:
-      </label>
-      <input type="number" name="roomwidth" id="roomwidth" placeholder="room width"/>
-      <input type="number" name="roomheight" id="roomheight" placeholder="room height" />
-    </div>
-    <div>
-      <button type="submit">don't do it</button>
-    </div>
-  </form>
-  <br>
-  <div>
-    <h2>Schedule Editor</h2>
-    <ul class="ScheduleDisplay">
-      <input type="text" name="scheduleName" id="scheduleName" value={{sched.name}}/>
-      <label>Room Information</label>
-      <input type="number" name="roomW" id="roomW" value={{sched.room.roomWidth}}/>
-      <input type="number" name="roomH" id="roomH" value={{sched.room.roomHeight}}/>
-      <li *ngFor='let period of sched.periods'>
-          <label>Start</label>
-          <input type="time" name=startTime{{period.id}} 
-          id=startTime{{period.id}} value={{makeTime(period.startTime)}}/>
-          <label>End</label>
-          <input type="time" name=endTime{{period.id}} 
-          id=endTime{{period.id}} value={{makeTime(period.endTime)}}/>
-      </li>
-    </ul>
-    <button (click)="onClick()">Add number</button>
-  </div>
-  
-  <button (click)="getSchedule()">Get Schedule</button>
-  -->
-
-
-<!-- Actual Form Stuff Below -->
-
-  
 
   <form [formGroup]="scheduleForm" (ngSubmit)="onFormSubmit()" >
     <h1>Create Schedule</h1>
@@ -113,7 +63,6 @@
     </div>
 
     <div formArrayName="periods" *ngFor="let period of scheduleForm.get('periods')['controls']; let i = index">
-        <!-- The repeated alias template -->
         <div [formGroupName]="i">
           {{i}}
           period name :

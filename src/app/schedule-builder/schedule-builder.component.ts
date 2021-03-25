@@ -20,9 +20,6 @@ import { splitAtColon } from '@angular/compiler/src/util';
 export class ScheduleBuilderComponent implements OnInit
 {
   SERVER_URL: string = 'https://luxo-api-test.azurewebsites.net/api/Schedules/';
-  
-  schedule = { startTime: 111, endTime: 222, name: "baseval" , room : { roomwidth : 0, roomheight : 0}};
-  //schedule: Schedule;
   scheduleForm:FormGroup;
   list:number[] = [1,2,3,4,5];
   sched: Schedule;
@@ -33,13 +30,16 @@ export class ScheduleBuilderComponent implements OnInit
   {
     this.sched = new Schedule(null);
     this.sched.periods = [];
+
     /*
+    // initial schedule if 
     this.sched.name = "Test Schedule";
     this.sched.room = {roomWidth: 4, roomHeight: 5};
     this.sched.periods = [{id:1, startTime:{hours:11, minutes:44}, endTime:{hours:12, minutes:33}},
     {id:2, startTime:{hours:13, minutes:44}, endTime:{hours:15, minutes:6}},
     {id:3, startTime:{hours:5, minutes:24}, endTime:{hours:6, minutes:22}}]
-*/
+    */
+
     this.scheduleForm = this.fb.group({
       scheduleName: ['', Validators.required],
       deviceId: [''],
@@ -77,7 +77,6 @@ export class ScheduleBuilderComponent implements OnInit
       endTime: ['', Validators.required],
       duration: ['', Validators.required]
     }));
-    
   }
 
   addNewPeriod(){
@@ -89,6 +88,7 @@ export class ScheduleBuilderComponent implements OnInit
     }));
     this.sched.periods.push({startTime:{hours:0, minutes:0}, endTime:{hours:0, minutes:0}, duration:15});
   }
+
   deletePeriod(i:number){
     const fa = (this.scheduleForm.get('periods')as FormArray);
     fa.removeAt(i);
@@ -121,22 +121,7 @@ export class ScheduleBuilderComponent implements OnInit
   }
 
   populateForm(){
-
-    /*
-    this.scheduleForm = this.fb.group({
-      scheduleName: ['', Validators.required],
-      deviceId: [''],
-      delay: [''],
-      intensity: [''],
-      sensorPort: [''],
-      lightPort: [''],
-      room: this.fb.group({
-        roomWidth: [''],
-        roomHeight: ['']
-      }),
-      periods: this.fb.array([])
-    });
-    */
+    // patch the simple values of the form
     this.scheduleForm.patchValue(
       {
         scheduleName: this.sched.name,
@@ -151,6 +136,8 @@ export class ScheduleBuilderComponent implements OnInit
         }
       }
     );
+
+    // find the nested stuff and update its value
     var index = 0;
     for(const period in this.sched.periods)
     {
@@ -166,6 +153,8 @@ export class ScheduleBuilderComponent implements OnInit
     var newSchedule:Schedule;
     newSchedule = new Schedule(null);
 
+    //make the new schedule to submit based on the form values
+    //this can probably be done WAY more easily if you took some time
     newSchedule.name = this.scheduleForm.value.scheduleName;
     newSchedule.deviceId = this.scheduleForm.value.deviceId;
     newSchedule.delay = this.scheduleForm.value.delay;
@@ -176,6 +165,7 @@ export class ScheduleBuilderComponent implements OnInit
     
     for (let period of this.scheduleForm.value.periods)
     {
+      //prep the new schedule from the form data
       var start = period.startTime.toString().split(":",2);
       var end = period.endTime.toString().split(":",2);
       var dur = period.duration;
@@ -186,8 +176,7 @@ export class ScheduleBuilderComponent implements OnInit
     }
     newSchedule.room = this.scheduleForm.value.room;
 
-    
-
+    // if the page doesn't have an active schedule id, then post a new schedule
     if(this.sched.scheduleId == null){
       console.log("make a new schedule");
       console.log(newSchedule);
@@ -197,37 +186,25 @@ export class ScheduleBuilderComponent implements OnInit
     }
     else{
       console.log("update schedule" + this.sched.scheduleId.toString());
+      //make sure to put the id in the schedule before you send it off
       newSchedule.scheduleId = this.sched.scheduleId;
       console.log(newSchedule);
       this.httpClient
+      // note that you gotta put the schedule id in the url string
       .put<any>(this.SERVER_URL + this.sched.scheduleId.toString(), newSchedule)
       .subscribe(res => console.log(res), err => console.log(err));
 
     }
-    /*
-    this.httpClient
-      .post<any>(this.SERVER_URL, newSchedule)
-      .subscribe(res => console.log(res), err => console.log(err));
-    */
   }
 
   updateScheduleOnServer(){
-
+  // this should get the update code eventually
   }
   addScheduleToServer(){
-
+  // this should get the add code eventually
   }
 
-
-  updateProfile() {
-    this.scheduleForm.patchValue({
-      scheduleName: 'Nancy',
-      address: {
-        street: '123 Drew Street'
-      }
-    });
-  }
-
+  // get a particular schedule by id and use it as the current schedule
   getSchedule(id?){
     var json;
     if(id == null)id = 42;
@@ -236,38 +213,15 @@ export class ScheduleBuilderComponent implements OnInit
       .subscribe(res => {
         json = res;
         console.log(json);
-        this.sched = json;
+        this.sched = json; // update the current sched AFTER the api gets back to you
         this.populateForm();
       } , err => console.log(err));
-    
-    //return new Schedule(json);
-    //this.sched = new Schedule(json);
   }
 
-  onClick(){
-    //this.list[this.list.length] = this.list.length;
-    this.sched.periods.push(new SchedulePeriod);
-  }
-
-  onSubmit(event: any) {
-    this.schedule.name = event.target.nameInput.value;
-    console.log(event.target.start.value);
-    this.schedule.startTime = event.target.start.value;
-    this.schedule.endTime = event.target.end.value;
-    this.schedule.room = {roomwidth : event.target.roomwidth.value, roomheight : event.target.roomheight.value}
-    console.log(this.schedule);
-
-  } 
+  // load a schedule from the database based on the entered id
   loadNewSchedule(event: any) {
-    
     console.log(event.target.schedId.value);
     this.getSchedule(event.target.schedId.value);
   } 
 
-
-
 }
-function getSchedule(id: any) {
-  throw new Error('Function not implemented.');
-}
-
