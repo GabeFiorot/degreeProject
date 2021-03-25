@@ -1,5 +1,5 @@
 
-<h1>Create Schedule</h1>
+<h2>Create Schedule</h2>
 <div>
   <form (ngSubmit)="onSubmit($event)">
     <div>
@@ -20,7 +20,7 @@
       <button type="submit">Upload</button>
     </div>
   </form>
-
+  <br>
   <div>
     <h2>Schedule Editor</h2>
     <ul class="ScheduleDisplay">
@@ -40,7 +40,7 @@
     <button (click)="onClick()">Add number</button>
   </div>
   <button (click)="getSchedule()">Get Schedule</button>
-
+<br>
 
 
 <!-- Actual Form Stuff Below -->
@@ -48,14 +48,14 @@
 
 
   <form [formGroup]="scheduleForm" (ngSubmit)="onFormSubmit()" >
-  
+    <h2>Scheduler</h2>
     <label>
-      First Name:
+      Schedule Name:
       <input type="text" formControlName="scheduleName" required>
     </label>
 
     <div formGroupName="room">
-      <h3>Address</h3>
+      
       <label>
         Room Width:
         <input type="number" formControlName="roomWidth">
