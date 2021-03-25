@@ -3,10 +3,11 @@
 body{ 
     background-color : rgb(255, 255, 255);
     font-family: Helvetica;
-    color: rgb(39, 39, 41);
+    color: rgb(50, 50, 50);
 }
 
 .TopBar{
-    background-color : rgb(39, 39, 41);
+    background-color : rgb(50, 50, 50);
     color: rgb(255, 255, 255);
+    padding: 5px;
 }
