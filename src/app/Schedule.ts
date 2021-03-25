@@ -3,6 +3,7 @@ import {Room} from "./Room";
 import {SchedulePeriod} from "./SchedulePeriod";
 export class Schedule{
     
+    scheduleId?:number
     name: String;
     periods: SchedulePeriod[];
     room: Room;

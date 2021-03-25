@@ -1,23 +1,39 @@
+<h1>Load Schedule</h1>
+<div>
+  <form (ngSubmit)="loadNewSchedule($event)">
+    <div>
+      <label>
+        Schedule Id:
+      </label>
+      <input type="number" name="schedId" id="schedId" />
+      <button type="submit">Get</button>
+    </div>
 
-<h1>Create Schedule</h1>
+  </form>
+  <p>
+    <button type="button" (click)="clearSchedule()">Clear Current Schedule</button>
+  </p>
+</div>
+<!--
+<h1>Fake Create Schedule</h1>
 <div>
   <form (ngSubmit)="onSubmit($event)">
     <div>
       <label>
-        Schedule Name:
+        nope:
       </label>
       <input type="text" name="nameInput" id="nameInput" />
     </div>
 
     <div>
       <label>
-        Room Information:
+        not room info:
       </label>
       <input type="number" name="roomwidth" id="roomwidth" placeholder="room width"/>
       <input type="number" name="roomheight" id="roomheight" placeholder="room height" />
     </div>
     <div>
-      <button type="submit">Upload</button>
+      <button type="submit">don't do it</button>
     </div>
   </form>
 
@@ -39,8 +55,9 @@
     </ul>
     <button (click)="onClick()">Add number</button>
   </div>
+  
   <button (click)="getSchedule()">Get Schedule</button>
-
+  -->
 
 
 <!-- Actual Form Stuff Below -->
@@ -50,19 +67,19 @@
   <form [formGroup]="scheduleForm" (ngSubmit)="onFormSubmit()" >
   
     <label>
-      First Name:
-      <input type="text" formControlName="scheduleName" required>
+      Schedule Name:
+      <input type="text" formControlName="scheduleName"  required>
     </label>
 
     <div formGroupName="room">
-      <h3>Address</h3>
+      <h3>Room Configuration</h3>
       <label>
         Room Width:
-        <input type="number" formControlName="roomWidth">
+        <input type="number" formControlName="roomWidth" >
       </label>
       <label>
         Room Height:
-        <input type="number" formControlName="roomHeight">
+        <input type="number" formControlName="roomHeight" >
       </label>
     </div>
 
@@ -71,16 +88,16 @@
         <div [formGroupName]="i">
           {{i}}
           period name :
-          <input formControlName="startTime" type="time">
-          <input formControlName="endTime"  type="time">
+          <input formControlName="startTime" type="time" >
+          <input formControlName="endTime"  type="time" >
           <button type="button" (click)="deletePeriod(i)">X</button>
         </div>
     </div>
     <p>
       <button type="button" (click)="addNewPeriod()">add</button>
     </p>
-    <button type="submit" [disabled]="!scheduleForm.valid">Submit</button>
+    <button type="submit">Submit</button>
   </form>
 
-</div>
+
 

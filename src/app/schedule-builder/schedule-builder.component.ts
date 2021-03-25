@@ -47,11 +47,29 @@ export class ScheduleBuilderComponent implements OnInit
       periods: this.fb.array([])
     });
     const fa = (this.scheduleForm.get('periods')as FormArray);
-    this.addNewPeriod();
+    if(this.sched == null)
+    {
+      this.addNewPeriod();
+    }else
+    {
+      for(let period of this.sched.periods)
+      {
+        this.addInitialPeriods();
+      }
+    }
   }
 
   getPeriods(){
     return this.scheduleForm.get('periods');
+  }
+
+  addInitialPeriods(){
+    const fa = (this.scheduleForm.get('periods')as FormArray);
+    fa.push(this.fb.group({
+      startTime: ['', Validators.required],
+      endTime: ['', Validators.required]
+    }));
+    
   }
 
   addNewPeriod(){
@@ -60,6 +78,7 @@ export class ScheduleBuilderComponent implements OnInit
       startTime: ['', Validators.required],
       endTime: ['', Validators.required]
     }));
+    this.sched.periods.push({startTime:{hours:0, minutes:0}, endTime:{hours:0, minutes:0}, intensity:1});
   }
   deletePeriod(i:number){
     const fa = (this.scheduleForm.get('periods')as FormArray);
@@ -88,14 +107,38 @@ export class ScheduleBuilderComponent implements OnInit
     return (hoursAdj + ":" + minutesAdj);
   }
 
+  clearSchedule(){
+    this.sched.scheduleId = null;
+  }
+
+  populateForm(){
+
+    this.scheduleForm.patchValue(
+      {
+        scheduleName: this.sched.name,
+        room: {
+          roomWidth: this.sched.room.roomWidth,
+          roomHeight: this.sched.room.roomHeight,
+        }
+      }
+    );
+    var index = 0;
+    for(const period in this.sched.periods)
+    {
+      (<FormArray>this.scheduleForm.get('periods')).at(index).get('startTime').patchValue(this.makeTime(this.sched.periods[index].startTime));
+      (<FormArray>this.scheduleForm.get('periods')).at(index).get('endTime').patchValue(this.makeTime(this.sched.periods[index].endTime));
+      index ++;
+    }
+  }
+
   onFormSubmit() {
-    // TODO: Use EventEmitter with form value
-    //console.log(this.scheduleForm.value);
 
     var newSchedule:Schedule;
     newSchedule = new Schedule(null);
+
     newSchedule.name = this.scheduleForm.value.scheduleName;
     newSchedule.periods = [];
+    
     for (let period of this.scheduleForm.value.periods)
     {
       var start = period.startTime.toString().split(":",2);
@@ -104,12 +147,38 @@ export class ScheduleBuilderComponent implements OnInit
     }
     newSchedule.room = this.scheduleForm.value.room;
 
-    console.log(newSchedule);
+    
+
+    if(this.sched.scheduleId == null){
+      console.log("make a new schedule");
+      console.log(newSchedule);
+      this.httpClient
+      .post<any>(this.SERVER_URL, newSchedule)
+      .subscribe(res => console.log(res), err => console.log(err));
+    }
+    else{
+      console.log("update schedule" + this.sched.scheduleId.toString());
+      newSchedule.scheduleId = this.sched.scheduleId;
+      console.log(newSchedule);
+      this.httpClient
+      .put<any>(this.SERVER_URL + this.sched.scheduleId.toString(), newSchedule)
+      .subscribe(res => console.log(res), err => console.log(err));
+
+    }
+    /*
     this.httpClient
       .post<any>(this.SERVER_URL, newSchedule)
       .subscribe(res => console.log(res), err => console.log(err));
+    */
+  }
+
+  updateScheduleOnServer(){
 
   }
+  addScheduleToServer(){
+
+  }
+
 
   updateProfile() {
     this.scheduleForm.patchValue({
@@ -120,14 +189,16 @@ export class ScheduleBuilderComponent implements OnInit
     });
   }
 
-  getSchedule(){
+  getSchedule(id?){
     var json;
+    if(id == null)id = 42;
     this.httpClient
-      .get<any>(this.SERVER_URL + "42")
+      .get<any>(this.SERVER_URL + id.toString())
       .subscribe(res => {
         json = res;
         console.log(json);
         this.sched = json;
+        this.populateForm();
       } , err => console.log(err));
     
     //return new Schedule(json);
@@ -146,10 +217,18 @@ export class ScheduleBuilderComponent implements OnInit
     this.schedule.endTime = event.target.end.value;
     this.schedule.room = {roomwidth : event.target.roomwidth.value, roomheight : event.target.roomheight.value}
     console.log(this.schedule);
-    /*
-    this.httpClient
-      .post<any>(this.SERVER_URL, this.schedule)
-      .subscribe(res => console.log(res), err => console.log(err));
-      */
+
   } 
+  loadNewSchedule(event: any) {
+    
+    console.log(event.target.schedId.value);
+    this.getSchedule(event.target.schedId.value);
+  } 
+
+
+
 }
+function getSchedule(id: any) {
+  throw new Error('Function not implemented.');
+}
+
