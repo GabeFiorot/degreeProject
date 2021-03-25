@@ -5,7 +5,7 @@ export class SchedulePeriod{
     id?: number;
     startTime: Time;
     endTime: Time;
-    intensity?: number;
+    duration: number;
     
 
 }
