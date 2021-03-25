@@ -32,14 +32,21 @@ export class ScheduleBuilderComponent implements OnInit
   ngOnInit()
   {
     this.sched = new Schedule(null);
+    this.sched.periods = [];
+    /*
     this.sched.name = "Test Schedule";
     this.sched.room = {roomWidth: 4, roomHeight: 5};
     this.sched.periods = [{id:1, startTime:{hours:11, minutes:44}, endTime:{hours:12, minutes:33}},
     {id:2, startTime:{hours:13, minutes:44}, endTime:{hours:15, minutes:6}},
     {id:3, startTime:{hours:5, minutes:24}, endTime:{hours:6, minutes:22}}]
-
+*/
     this.scheduleForm = this.fb.group({
       scheduleName: ['', Validators.required],
+      deviceId: [''],
+      delay: [''],
+      intensity: [''],
+      sensorPort: [''],
+      lightPort: [''],
       room: this.fb.group({
         roomWidth: [''],
         roomHeight: ['']
@@ -67,7 +74,8 @@ export class ScheduleBuilderComponent implements OnInit
     const fa = (this.scheduleForm.get('periods')as FormArray);
     fa.push(this.fb.group({
       startTime: ['', Validators.required],
-      endTime: ['', Validators.required]
+      endTime: ['', Validators.required],
+      duration: ['', Validators.required]
     }));
     
   }
@@ -76,9 +84,10 @@ export class ScheduleBuilderComponent implements OnInit
     const fa = (this.scheduleForm.get('periods')as FormArray);
     fa.push(this.fb.group({
       startTime: ['', Validators.required],
-      endTime: ['', Validators.required]
+      endTime: ['', Validators.required],
+      duration: ['', Validators.required]
     }));
-    this.sched.periods.push({startTime:{hours:0, minutes:0}, endTime:{hours:0, minutes:0}, intensity:1});
+    this.sched.periods.push({startTime:{hours:0, minutes:0}, endTime:{hours:0, minutes:0}, duration:15});
   }
   deletePeriod(i:number){
     const fa = (this.scheduleForm.get('periods')as FormArray);
@@ -113,9 +122,29 @@ export class ScheduleBuilderComponent implements OnInit
 
   populateForm(){
 
+    /*
+    this.scheduleForm = this.fb.group({
+      scheduleName: ['', Validators.required],
+      deviceId: [''],
+      delay: [''],
+      intensity: [''],
+      sensorPort: [''],
+      lightPort: [''],
+      room: this.fb.group({
+        roomWidth: [''],
+        roomHeight: ['']
+      }),
+      periods: this.fb.array([])
+    });
+    */
     this.scheduleForm.patchValue(
       {
         scheduleName: this.sched.name,
+        deviceId: this.sched.deviceId,
+        delay: this.sched.delay,
+        intensity: this.sched.intensity,
+        sensorPort: this.sched.sensorPort,
+        lightPort: this.sched.lightPort,
         room: {
           roomWidth: this.sched.room.roomWidth,
           roomHeight: this.sched.room.roomHeight,
@@ -127,6 +156,7 @@ export class ScheduleBuilderComponent implements OnInit
     {
       (<FormArray>this.scheduleForm.get('periods')).at(index).get('startTime').patchValue(this.makeTime(this.sched.periods[index].startTime));
       (<FormArray>this.scheduleForm.get('periods')).at(index).get('endTime').patchValue(this.makeTime(this.sched.periods[index].endTime));
+      (<FormArray>this.scheduleForm.get('periods')).at(index).get('duration').patchValue(this.sched.periods[index].duration);
       index ++;
     }
   }
@@ -137,13 +167,22 @@ export class ScheduleBuilderComponent implements OnInit
     newSchedule = new Schedule(null);
 
     newSchedule.name = this.scheduleForm.value.scheduleName;
+    newSchedule.deviceId = this.scheduleForm.value.deviceId;
+    newSchedule.delay = this.scheduleForm.value.delay;
+    newSchedule.intensity = this.scheduleForm.value.intensity;
+    newSchedule.sensorPort = this.scheduleForm.value.sensorPort;
+    newSchedule.lightPort = this.scheduleForm.value.lightPort;
     newSchedule.periods = [];
     
     for (let period of this.scheduleForm.value.periods)
     {
       var start = period.startTime.toString().split(":",2);
       var end = period.endTime.toString().split(":",2);
-      newSchedule.periods.push({startTime:{hours:parseInt(start[0]), minutes:parseInt(start[1])}, endTime:{hours:parseInt(end[0]), minutes:parseInt(end[1])}, intensity:1});
+      var dur = period.duration;
+      newSchedule.periods.push({startTime:{hours:parseInt(start[0]), minutes:parseInt(start[1])}, 
+                                endTime:{hours:parseInt(end[0]), minutes:parseInt(end[1])},
+                                duration: dur}
+                                );
     }
     newSchedule.room = this.scheduleForm.value.room;
 

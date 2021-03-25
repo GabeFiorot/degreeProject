@@ -73,6 +73,27 @@
       Schedule Name:
       <input type="text" formControlName="scheduleName"  required>
     </label>
+    <label>
+      Device Id:
+      <input type="number" formControlName="deviceId" >
+    </label>
+    <label>
+     Delay:
+      <input type="number" formControlName="delay" >
+    </label>
+    <label>
+      Intensity:
+       <input type="number" formControlName="intensity" >
+     </label>
+
+     <label>
+      Sensor Port:
+       <input type="number" formControlName="sensorPort" >
+     </label>
+     <label>
+      Light Port:
+       <input type="number" formControlName="lightPort" >
+     </label>
 
     <div formGroupName="room">
       <h3>Room Configuration</h3>
@@ -93,6 +114,7 @@
           period name :
           <input formControlName="startTime" type="time" >
           <input formControlName="endTime"  type="time" >
+          <input formControlName="duration"  type="number" >
           <button type="button" (click)="deletePeriod(i)">X</button>
         </div>
     </div>
