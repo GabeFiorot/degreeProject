@@ -9,5 +9,9 @@ body{
 .TopBar{
     background-color : rgb(50, 50, 50);
     color: rgb(255, 255, 255);
-    padding: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
+

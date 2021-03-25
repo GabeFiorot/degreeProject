@@ -1,5 +1,6 @@
-<h1>Load Schedule</h1>
+
 <div>
+  <h1>Load Schedule</h1>
   <form (ngSubmit)="loadNewSchedule($event)">
     <div>
       <label>
@@ -13,6 +14,7 @@
   <p>
     <button type="button" (click)="clearSchedule()">Clear Current Schedule</button>
   </p>
+  <br>
 </div>
 <!--
 <h1>Fake Create Schedule</h1>
@@ -63,10 +65,10 @@
 
 <!-- Actual Form Stuff Below -->
 
-
+  
 
   <form [formGroup]="scheduleForm" (ngSubmit)="onFormSubmit()" >
-    <h2>Scheduler</h2>
+    <h1>Create Schedule</h1>
     <label>
       Schedule Name:
       <input type="text" formControlName="scheduleName"  required>
