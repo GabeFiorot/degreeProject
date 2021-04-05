@@ -4,3 +4,35 @@ div{
     padding-bottom: 2px;
     padding-top: 2px;
 }
+
+nav{
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    background-color: rgb(50, 50, 50);;
+}
+
+a{
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: white;
+}
+
+a:link, a:visited {
+    background-color: rgb(80, 80, 80);
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 3px;
+    transition-duration: 0.1s;
+  }
+  
+  a:hover, a:active {
+    background-color: rgb(151, 151, 151);
+  }
+  
