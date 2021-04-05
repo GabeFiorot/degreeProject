@@ -1,82 +1,129 @@
-
-<div>
-  <h1>Load Schedule</h1>
-  <form (ngSubmit)="loadNewSchedule($event)">
-    <div>
+<div class="split left">
+  <div class="centered">
+    
+    <form [formGroup]="deviceForm" (ngSubmit)="onFormSubmit()" >
+      <h1>Device Configuration</h1>
       <label>
-        Schedule Id:
+        Device Name:
+        <input type="text" formControlName="deviceName"  required>
       </label>
-      <input type="number" name="schedId" id="schedId" />
-      <button type="submit">Get</button>
-    </div>
+      <div formGroupName="room">
+        <h3>Room Configuration</h3>
+        <label>
+          Room Width:
+          <input type="number" formControlName="roomWidth" >
+        </label>
+        <label>
+          Room Height:
+          <input type="number" formControlName="roomHeight" >
+        </label>
+      </div>
+ 
+      <div formArrayName="schedules" *ngFor="let schedule of deviceForm.get('schedules')['controls']; let i = index">
+          <div [formGroupName]="i">
+            {{i}}
+            schedule name :
+            <input formControlName="name" type="text" >
 
-  </form>
-  <p>
-    <button type="button" (click)="clearSchedule()">Clear Current Schedule</button>
-  </p>
-  <br>
+            <button type="button" (click)="deleteSchedules(i)">X</button>
+            <button type="button" (click)="editSchedule(i)">Edit</button>
+          </div>
+      </div>
+      <p>
+        <button type="button" (click)="addNewSchedules()">add Schedule</button>
+      </p>
+
+
+      <button type="submit">Submit</button>
+    </form>
+    
+  </div>
 </div>
 
-  <form [formGroup]="scheduleForm" (ngSubmit)="onFormSubmit()" >
-    <h1>Create Schedule</h1>
-    <label>
-      Schedule Name:
-      <input type="text" formControlName="scheduleName"  required>
-    </label>
-    <br>
-    <label>
-      Device Id:
-      <input type="number" formControlName="deviceId" >
-    </label>
-    <br>
-    <label>
-     Delay:
-      <input type="number" formControlName="delay" >
-    </label>
-    <br>
-    <label>
-      Intensity:
-       <input type="number" formControlName="intensity" >
-     </label>
-     <br>
-     <label>
-      Sensor Port:
-       <input type="number" formControlName="sensorPort" >
-     </label>
-     <br>
-     <label>
-      Light Port:
-       <input type="number" formControlName="lightPort" >
-     </label>
-     <br>
+<div class="split right">
+  <div class="centered">
 
-    <div formGroupName="room">
-      <h3>Room Configuration</h3>
-      <label>
-        Room Width:
-        <input type="number" formControlName="roomWidth" >
-      </label>
-      <label>
-        Room Height:
-        <input type="number" formControlName="roomHeight" >
-      </label>
-    </div>
-
-    <div formArrayName="periods" *ngFor="let period of scheduleForm.get('periods')['controls']; let i = index">
-        <div [formGroupName]="i">
-          {{i}}
-          period name :
-          <input formControlName="startTime" type="time" >
-          <input formControlName="endTime"  type="time" >
-          <input formControlName="duration"  type="number" >
-          <button type="button" (click)="deletePeriod(i)">X</button>
+    <div>
+      <h1>Load Schedule</h1>
+      <form (ngSubmit)="loadNewSchedule($event)">
+        <div>
+          <label>
+            Schedule Id:
+          </label>
+          <input type="number" name="schedId" id="schedId" />
+          <button type="submit">Get</button>
         </div>
+    
+      </form>
+      <p>
+        <button type="button" (click)="clearSchedule()">Clear Current Schedule</button>
+      </p>
+      <br>
     </div>
-    <p>
-      <button type="button" (click)="addNewPeriod()">add</button>
-    </p>
-    <button type="submit">Submit</button>
-  </form>
+    
+      <form [formGroup]="scheduleForm" (ngSubmit)="onFormSubmit()" >
+        <h1>Create Schedule</h1>
+        <label>
+          Schedule Name:
+          <input type="text" formControlName="scheduleName"  required>
+        </label>
+        <label>
+         Delay:
+          <input type="number" formControlName="delay" >
+        </label>
+        <br>
+        <label>
+          Intensity:
+           <input type="number" formControlName="intensity" >
+         </label>
+   
+        <div formArrayName="periods" *ngFor="let period of scheduleForm.get('periods')['controls']; let i = index">
+            <div [formGroupName]="i">
+              {{i}}
+              period name :
+              <input formControlName="startTime" type="time" >
+              <input formControlName="endTime"  type="time" >
+              <input formControlName="duration"  type="number" >
+              <button type="button" (click)="deletePeriod(i)">X</button>
+            </div>
+        </div>
+        <p>
+          <button type="button" (click)="addNewPeriod()">add Period</button>
+        </p>
+        
+
+        <div formArrayName="lightConfigs" *ngFor="let config of scheduleForm.get('lightConfigs')['controls']; let i = index">
+          <div [formGroupName]="i">
+            {{i}}
+            light Port :
+            <input formControlName="lightPort" type="number" >
+
+              <div formArrayName="sensorPorts" *ngFor="let port of scheduleForm.get('lightConfigs')['controls'][i].get('sensorPorts')['controls']; let j = index">
+                <div [formGroupName]="j">
+                  {{j}}
+                  sensor Port :
+                  <input formControlName="port" type="number" >
+      
+                  <button type="button" (click)="deleteSensorPort(i,j)">X</button>
+                </div>
+              </div>
+
+              <p>
+                <button type="button" (click)="addNewSensorPorts(i)">add Port</button>
+              </p>
+
+            <button type="button" (click)="deleteLightConfig(i)">X</button>
+          </div>
+        </div>
+        <p>
+          <button type="button" (click)="addNewLightConfig()">add Config</button>
+        </p>
+
+        <button type="submit">Submit</button>
+      </form>
+
+  </div>
+</div>
 
 
 

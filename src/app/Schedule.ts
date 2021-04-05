@@ -1,31 +1,30 @@
 import { ThisReceiver } from "@angular/compiler";
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 import {Room} from "./Room";
 import {SchedulePeriod} from "./SchedulePeriod";
+import {LightConfig} from "./LightConfig";
 export class Schedule{
     
     scheduleId?:number;
-    deviceId:number;
     name: String;
+
     periods: SchedulePeriod[];
-    room: Room;
+
     delay:number;
     intensity:number;
-    sensorPort:number;
-    lightPort:number;
+
+    lightConfigs:LightConfig[];
 
     constructor(json: Schedule)
     {
             if(json != null)
             {
                 var obj = json;
-                this.deviceId = obj.deviceId;
                 this.name = obj.name;
-                this.room = obj.room;
                 this.periods = obj.periods;
                 this.delay = obj.delay;
                 this.intensity = obj.intensity;
-                this.sensorPort = obj.sensorPort;
-                this.lightPort = obj.lightPort;
+                this.lightConfigs = obj.lightConfigs;
             }
     }
 
