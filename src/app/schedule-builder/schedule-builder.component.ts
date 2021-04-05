@@ -11,8 +11,6 @@ import { splitAtColon } from '@angular/compiler/src/util';
 import { LightConfig } from '../LightConfig';
 //import { Console } from 'node:console';
 
-
-
 @Component({
   selector: 'app-schedule-builder',
   templateUrl: './schedule-builder.component.html',
@@ -23,11 +21,13 @@ import { LightConfig } from '../LightConfig';
 export class ScheduleBuilderComponent implements OnInit
 {
   SERVER_URL: string = 'https://luxo-api-test.azurewebsites.net/api/Schedules/';
+  DEVICE_URL: string = 'https://luxo-api-test.azurewebsites.net/api/Devices/';
   scheduleForm:FormGroup;
   deviceForm:FormGroup;
   list:number[] = [1,2,3,4,5];
   sched: Schedule;
   device : Device;
+  currentDevice:number;
   currentSchedule:number;
   constructor(private httpClient: HttpClient, private fb:FormBuilder) {}
 
@@ -36,10 +36,10 @@ export class ScheduleBuilderComponent implements OnInit
     //this.sched = new Schedule(null);
     //this.sched.periods = [];
     //this.sched.lightConfigs = [];
-    this.device = JSON.parse("{\"DeviceId\":0,\"Name\":\"liveapidevice\",\"room\":{\"roomWidth\":12,\"roomHeight\":10},\"schedules\":[{\"name\":\"testsched\",\"delay\":100,\"intensity\":255,\"lightConfigs\":[{\"lightPort\":1,\"sensorPorts\":[{\"port\":3},{\"port\":4}]},{\"lightPort\":2,\"sensorPorts\":[{\"port\":5},{\"port\":6}]}],\"periods\":[{\"startTime\":{\"hours\":8,\"minutes\":22},\"endTime\":{\"hours\":9,\"minutes\":35},\"duration\":0},{\"startTime\":{\"hours\":13,\"minutes\":45},\"endTime\":{\"hours\":15,\"minutes\":21},\"duration\":0}]}]}");
-    this.currentSchedule = 0;
-    this.sched = this.device.schedules[this.currentSchedule];
+    //this.device = JSON.parse("{\"DeviceId\":0,\"Name\":\"liveapidevice\",\"room\":{\"roomWidth\":12,\"roomHeight\":10},\"schedules\":[{\"name\":\"testsched\",\"delay\":100,\"intensity\":255,\"lightConfigs\":[{\"lightPort\":1,\"sensorPorts\":[{\"port\":3},{\"port\":4}]},{\"lightPort\":2,\"sensorPorts\":[{\"port\":5},{\"port\":6}]}],\"periods\":[{\"startTime\":{\"hours\":8,\"minutes\":22},\"endTime\":{\"hours\":9,\"minutes\":35},\"duration\":0},{\"startTime\":{\"hours\":13,\"minutes\":45},\"endTime\":{\"hours\":15,\"minutes\":21},\"duration\":0}]}]}");
     
+    this.currentDevice = history.state.data.deviceIndex;
+    this.getDevice(this.currentDevice);
     /*
     // initial schedule if 
     this.sched.name = "Test Schedule";
@@ -66,35 +66,7 @@ export class ScheduleBuilderComponent implements OnInit
           roomHeight: ['']
         }),
     })
-    const fa = (this.scheduleForm.get('periods')as FormArray);
-    if(this.sched == null)
-    {
-      this.addNewPeriod();
-      this.addNewLightConfig();
-    }else
-    {
-      for(let period of this.sched.periods)
-      {
-        this.addInitialPeriods();
-      }
-      for(let config of this.sched.lightConfigs)
-      {
-        var index = this.sched.lightConfigs.indexOf(config)
-        this.addInitialLightConfigs();
-        for(let port of config.sensorPorts)
-        {
-          this.addInitialSensorPorts(index);
-        }
-      }
-
-      for(let schedule of this.device.schedules)
-      {
-        this.addInitialSchedules();
-      }
-    }
-
-    this.populateForm(this.sched);
-    this.populateDeviceForm();
+    
   }
 
   getPeriods(){
@@ -238,10 +210,41 @@ export class ScheduleBuilderComponent implements OnInit
     this.sched.scheduleId = null;
   }
 
+  initializeEditForm()
+  {
+    //const fa = (this.scheduleForm.get('periods')as FormArray);
+    
+    
+    for(let schedule of this.device.schedules)
+    {
+      this.addInitialSchedules();
+    }
+
+      for(let period of this.device.schedules[this.currentSchedule].periods)
+      {
+        this.addInitialPeriods();
+      }
+      for(let config of this.device.schedules[this.currentSchedule].lightConfigs)
+      {
+        var index = this.device.schedules[this.currentSchedule].lightConfigs.indexOf(config)
+        this.addInitialLightConfigs();
+        for(let port of config.sensorPorts)
+        {
+          this.addInitialSensorPorts(index);
+        }
+      
+
+      
+    }
+
+    this.populateForm(this.sched);
+    this.populateDeviceForm();
+  }
+
   populateDeviceForm(){
     console.log(this.device);
     this.deviceForm.patchValue({
-      deviceName : this.device.Name,
+      deviceName : this.device.name,
       room : 
       {
         roomWidth : this.device.room.roomWidth,
@@ -298,7 +301,23 @@ export class ScheduleBuilderComponent implements OnInit
     }
   }
 
-  onFormSubmit() {
+  submitDevice()
+  {
+
+    this.device.room.roomHeight = this.deviceForm.get('room').get('roomHeight').value;
+    this.device.room.roomWidth = this.deviceForm.get('room').get('roomWidth').value;
+    this.device.name = this.deviceForm.value.deviceName;
+    if(this.device.deviceId == null)
+    {
+      this.addDeviceToServer(this.device);
+    }
+    else
+    {
+      this.updateDeviceOnServer(this.device);
+    }
+  }
+
+  submitSchedule() {
 
     var newSchedule:Schedule;
     newSchedule = new Schedule(null);
@@ -306,11 +325,9 @@ export class ScheduleBuilderComponent implements OnInit
     //make the new schedule to submit based on the form values
     //this can probably be done WAY more easily if you took some time
     newSchedule.name = this.scheduleForm.value.scheduleName;
-    //newSchedule.deviceId = this.scheduleForm.value.deviceId;
     newSchedule.delay = this.scheduleForm.value.delay;
     newSchedule.intensity = this.scheduleForm.value.intensity;
-    //newSchedule.sensorPort = this.scheduleForm.value.sensorPort;
-    //newSchedule.lightPort = this.scheduleForm.value.lightPort;
+
     newSchedule.periods = [];
     newSchedule.lightConfigs = [];
     for (let period of this.scheduleForm.value.periods)
@@ -340,35 +357,29 @@ export class ScheduleBuilderComponent implements OnInit
 
     this.device.schedules[this.currentSchedule] = newSchedule;
     this.populateDeviceForm();
-    /*
-    // if the page doesn't have an active schedule id, then post a new schedule
-    if(this.sched.scheduleId == null){
-      console.log("make a new schedule");
-      console.log(newSchedule);
-      this.httpClient
-      .post<any>(this.SERVER_URL, newSchedule)
-      .subscribe(res => console.log(res), err => console.log(err));
-    }
-    else{
-      console.log("update schedule" + this.sched.scheduleId.toString());
-      //make sure to put the id in the schedule before you send it off
-      newSchedule.scheduleId = this.sched.scheduleId;
-      console.log(newSchedule);
-      this.httpClient
-      // note that you gotta put the schedule id in the url string
-      .put<any>(this.SERVER_URL + this.sched.scheduleId.toString(), newSchedule)
-      .subscribe(res => console.log(res), err => console.log(err));
 
-    }
-    */
   }
 
-  updateScheduleOnServer(){
+  updateDeviceOnServer(updatedDevice:Device){
   // this should get the update code eventually
+    console.log("update device" + updatedDevice.deviceId);
+        //make sure to put the id in the schedule before you send it off
+        //newSchedule.scheduleId = this.sched.scheduleId;
+        console.log(updatedDevice);
+        this.httpClient
+        // note that you gotta put the schedule id in the url string
+        .put<any>(this.DEVICE_URL + updatedDevice.deviceId.toString(), updatedDevice)
+        .subscribe(res => console.log(res), err => console.log(err));
   }
-  addScheduleToServer(){
+  addDeviceToServer(newDevice:Device){
   // this should get the add code eventually
+    console.log("make a new device");
+        console.log(newDevice);
+        this.httpClient
+        .post<any>(this.DEVICE_URL, newDevice)
+        .subscribe(res => console.log(res), err => console.log(err));
   }
+
 
 
   editSchedule(index:number)
@@ -388,6 +399,23 @@ export class ScheduleBuilderComponent implements OnInit
         console.log(json);
         this.sched = json; // update the current sched AFTER the api gets back to you
         this.populateForm(json);
+      } , err => console.log(err));
+  }
+
+  getDevice(id?){
+    var json;
+    if(id == null)id = 42;
+    this.httpClient
+      .get<any>(this.DEVICE_URL + id.toString())
+      .subscribe(res => {
+        json = res;
+        console.log(json);
+        this.device = json; // update the current sched AFTER the api gets back to you
+        this.currentSchedule = 0;
+        this.sched = this.device.schedules[this.currentSchedule];
+        this.initializeEditForm();
+        this.populateDeviceForm
+        this.editSchedule[0]
       } , err => console.log(err));
   }
 
