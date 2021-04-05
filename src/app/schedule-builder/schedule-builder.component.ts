@@ -52,15 +52,8 @@ export class ScheduleBuilderComponent implements OnInit
     
     this.scheduleForm = this.fb.group({
       scheduleName: ['', Validators.required],
-      //deviceId: [''],
       delay: [''],
       intensity: [''],
-      //sensorPort: [''],
-      //lightPort: [''],
-      //room: this.fb.group({
-      //  roomWidth: [''],
-      //  roomHeight: ['']
-      //}),
       periods: this.fb.array([]),
       lightConfigs: this.fb.array([])
     });
