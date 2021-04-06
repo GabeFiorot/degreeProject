@@ -1,4 +1,5 @@
 <div class="split left">
+  <h1 class="TopBar">LUXO</h1>
   <div class="centered">
     
     <form [formGroup]="deviceForm" (ngSubmit)="submitDevice()" >
@@ -44,11 +45,18 @@
 
       <button type="submit">Submit</button>
     </form>
-    
+    <br>
+    <br>
+    <br>
+    <br>
+    <button>
+      <a class="nav-item nav-link" routerLink="/devices">Go Back</a>
+    </button>
   </div>
 </div>
 
 <div class="split right" *ngIf="isEditorActive()">
+  <h1 class="TopBar2">Help.</h1>
   <div class="centered">
 
     
