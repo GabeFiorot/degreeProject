@@ -10,7 +10,8 @@ export class Device{
     Owner?:number;
     schedules: Schedule[];
     room: Room;
-
+    xpos: number;
+    ypos:number;
     constructor(json: Device)
     {
             if(json != null)

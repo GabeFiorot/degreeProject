@@ -19,7 +19,15 @@
           <input type="number" formControlName="roomHeight" >
         </label>
       </div>
- 
+      <label>
+        xpos:
+        <input type="number" formControlName="xpos" >
+      </label>
+      <label>
+        ypos:
+        <input type="number" formControlName="ypos" >
+      </label>
+      
       <div formArrayName="schedules" *ngFor="let schedule of deviceForm.get('schedules')['controls']; let i = index">
           <div [formGroupName]="i">
             {{i}}
@@ -42,7 +50,7 @@
     <br>
     <br>
     <button>
-      <a class="nav-item nav-link" routerLink="/devices">Go Back</a>
+      <a class="nav-item nav-link" (click)="goToDevices()">Go Back</a>
     </button>
   </div>
 </div>
@@ -51,23 +59,6 @@
   <h1 class="TopBar2">Help.</h1>
   <div class="centered">
 
-    <div>
-      <h1>Load Schedule</h1>
-      <form (ngSubmit)="loadNewSchedule($event)">
-        <div>
-          <label>
-            Schedule Id:
-          </label>
-          <input type="number" name="schedId" id="schedId" />
-          <button type="submit">Get</button>
-        </div>
-    
-      </form>
-      <p>
-        <button type="button" (click)="clearSchedule()">Clear Current Schedule</button>
-      </p>
-      <br>
-    </div>
     
       <form [formGroup]="scheduleForm" (ngSubmit)="submitSchedule()" >
         <h1>Create Schedule</h1>
@@ -91,8 +82,10 @@
               period name :
               <input formControlName="startTime" type="time" >
               <input formControlName="endTime"  type="time" >
-              <input formControlName="duration"  type="number" >
+              Duration:
+              <input formControlName="duration"  type="number">
               <button type="button" (click)="deletePeriod(i)">X</button>
+              <button type="button" (click)="setRecommended(i)">Set as Recommended Value</button>
             </div>
         </div>
         <p>
