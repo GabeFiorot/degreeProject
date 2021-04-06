@@ -89,8 +89,8 @@ button:hover{
     text-decoration: none;
     border-radius: 3px;
     position: absolute;
-    left: 250px;
-    top: 520px;
+    /*left: 250px;
+    top: 520px;*/
   }
   
   .container .btn1:hover {
@@ -112,8 +112,8 @@ button:hover{
     text-decoration: none;
     border-radius: 3px;
     position: absolute;
-    left: 250px;
-    top: 200px;
+    /*left: 250px;
+    top: 200px;*/
   }
   
   .container .btn2:hover {
@@ -135,8 +135,8 @@ button:hover{
     text-decoration: none;
     border-radius: 3px;
     position: absolute;
-    left: 630px;
-    top: 130px;
+    /*left: 630px;
+    top: 130px;*/
   }
   
   
@@ -148,3 +148,6 @@ button:hover{
     color: white;
     text-decoration: none;
   }
+
+
+  
