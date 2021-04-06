@@ -198,6 +198,20 @@ export class ScheduleBuilderComponent implements OnInit
     else return false;
   }
 
+  setRecommended(i:number)
+  {
+    var intensity = this.scheduleForm.value.intensity;
+    var height = this.deviceForm.get('room').get('roomHeight').value;
+    (<FormArray>this.scheduleForm.get('periods')).at(i).get('duration').patchValue(this.fixDuration(intensity, height));
+  }
+
+  fixDuration(intensity:number, height:number)
+  {
+    var duration = 1000 * 60 *(Math.pow(2, height)*2)/(intensity/255);
+    console.log(duration);
+    return duration;
+  }
+
   makeTime(time:Time)
   {
     var hoursAdj = "";

@@ -82,8 +82,10 @@
               period name :
               <input formControlName="startTime" type="time" >
               <input formControlName="endTime"  type="time" >
-              <input formControlName="duration"  type="number" >
+              Duration:
+              <input formControlName="duration"  type="number">
               <button type="button" (click)="deletePeriod(i)">X</button>
+              <button type="button" (click)="setRecommended(i)">Set as Recommended Value</button>
             </div>
         </div>
         <p>
