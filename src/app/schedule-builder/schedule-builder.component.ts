@@ -23,6 +23,7 @@ export class ScheduleBuilderComponent implements OnInit
 {
   SERVER_URL: string = 'https://luxo-api-test.azurewebsites.net/api/Schedules/';
   DEVICE_URL: string = 'https://luxo-api-test.azurewebsites.net/api/Devices/';
+  SECURE_URL: string = 'https://luxo-api-test.azurewebsites.net/api/SecureDevices';
   scheduleForm:FormGroup;
   deviceForm:FormGroup;
   list:number[] = [1,2,3,4,5];
@@ -67,6 +68,8 @@ export class ScheduleBuilderComponent implements OnInit
           roomWidth: [''],
           roomHeight: ['']
         }),
+      xpos: ['', Validators.required],
+      ypos: ['', Validators.required],
     })
     
   }
@@ -258,7 +261,9 @@ export class ScheduleBuilderComponent implements OnInit
       {
         roomWidth : this.device.room.roomWidth,
         roomHeight : this.device.room.roomHeight
-      }
+      },
+      xpos: this.device.xpos,
+      ypos: this.device.ypos
     });
 
     var index = 0;
@@ -321,6 +326,8 @@ export class ScheduleBuilderComponent implements OnInit
     this.device.room.roomHeight = this.deviceForm.get('room').get('roomHeight').value;
     this.device.room.roomWidth = this.deviceForm.get('room').get('roomWidth').value;
     this.device.name = this.deviceForm.value.deviceName;
+    this.device.xpos = this.deviceForm.get('xpos').value;
+    this.device.ypos = this.deviceForm.get('ypos').value;
     if(this.device.deviceId == null)
     {
       this.addDeviceToServer(this.device);
@@ -362,6 +369,7 @@ export class ScheduleBuilderComponent implements OnInit
       var newConfig:LightConfig;
       newConfig = new LightConfig();
       newConfig.sensorPorts = [];
+      newConfig.lightPort = config.lightPort;
       for(let sensor of config.sensorPorts)
       {
         newConfig.sensorPorts.push({port: sensor.port})
@@ -383,7 +391,7 @@ export class ScheduleBuilderComponent implements OnInit
         console.log(updatedDevice);
         this.httpClient
         // note that you gotta put the schedule id in the url string
-        .put<any>(this.DEVICE_URL + updatedDevice.deviceId.toString(), updatedDevice)
+        .put<any>(this.SECURE_URL +"?id=" +updatedDevice.deviceId.toString() + "&token=" + this.token, updatedDevice)
         .subscribe(res => {
           console.log(res);
           this.goToDevices();
@@ -394,7 +402,7 @@ export class ScheduleBuilderComponent implements OnInit
     console.log("make a new device");
         console.log(newDevice);
         this.httpClient
-        .post<any>(this.DEVICE_URL, newDevice)
+        .post<any>(this.SECURE_URL + "?id=" + this.token, newDevice)
         .subscribe(res => {
           console.log(res);
         this.goToDevices();}, err => console.log(err));
@@ -408,6 +416,7 @@ export class ScheduleBuilderComponent implements OnInit
     this.populateForm(this.device.schedules[this.currentSchedule]);
   }
 
+  /*
   // get a particular schedule by id and use it as the current schedule
   getSchedule(id?){
     var json;
@@ -421,12 +430,12 @@ export class ScheduleBuilderComponent implements OnInit
         this.populateForm(json);
       } , err => console.log(err));
   }
-
+*/
   getDevice(id?){
     var json;
     if(id == null)id = 42;
     this.httpClient
-      .get<any>(this.DEVICE_URL + id.toString())
+      .get<any>(this.SECURE_URL + "/" + id.toString() + "?token=" + this.token)
       .subscribe(res => {
         json = res;
         console.log(json);
@@ -440,9 +449,10 @@ export class ScheduleBuilderComponent implements OnInit
   }
 
   // load a schedule from the database based on the entered id
+  /*
   loadNewSchedule(event: any) {
     console.log(event.target.schedId.value);
     this.getSchedule(event.target.schedId.value);
   } 
-
+*/
 }

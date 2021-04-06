@@ -18,7 +18,15 @@
           <input type="number" formControlName="roomHeight" >
         </label>
       </div>
- 
+      <label>
+        xpos:
+        <input type="number" formControlName="xpos" >
+      </label>
+      <label>
+        ypos:
+        <input type="number" formControlName="ypos" >
+      </label>
+      
       <div formArrayName="schedules" *ngFor="let schedule of deviceForm.get('schedules')['controls']; let i = index">
           <div [formGroupName]="i">
             {{i}}
@@ -43,23 +51,6 @@
 <div class="split right" *ngIf="isEditorActive()">
   <div class="centered">
 
-    <div>
-      <h1>Load Schedule</h1>
-      <form (ngSubmit)="loadNewSchedule($event)">
-        <div>
-          <label>
-            Schedule Id:
-          </label>
-          <input type="number" name="schedId" id="schedId" />
-          <button type="submit">Get</button>
-        </div>
-    
-      </form>
-      <p>
-        <button type="button" (click)="clearSchedule()">Clear Current Schedule</button>
-      </p>
-      <br>
-    </div>
     
       <form [formGroup]="scheduleForm" (ngSubmit)="submitSchedule()" >
         <h1>Create Schedule</h1>
