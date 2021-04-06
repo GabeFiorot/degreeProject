@@ -9,3 +9,16 @@
       <button type="button" (click)="editDevice(i)">Edit</button>
     </div>
 </div>
+
+<form [formGroup]="loginForm" (ngSubmit)="tryLogin()" >
+    <h1>Login</h1>
+    <label>
+      Username:
+      <input type="text" formControlName="username"  required>
+    </label>
+    <label>
+     Password:
+      <input type="password" formControlName="password" >
+    </label>
+    <button type="submit">Submit</button>
+  </form>

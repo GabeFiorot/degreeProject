@@ -186,6 +186,13 @@ export class ScheduleBuilderComponent implements OnInit
 
   }
 
+  isEditorActive()
+  {
+
+    if(this.currentSchedule != -1)return true;
+    else return false;
+  }
+
   makeTime(time:Time)
   {
     var hoursAdj = "";
@@ -357,7 +364,7 @@ export class ScheduleBuilderComponent implements OnInit
 
     this.device.schedules[this.currentSchedule] = newSchedule;
     this.populateDeviceForm();
-
+    this.currentSchedule = -1;
   }
 
   updateDeviceOnServer(updatedDevice:Device){
