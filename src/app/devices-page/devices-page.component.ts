@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, FormControl, Validators, ReactiveFormsModule, F
 export class DevicesPageComponent implements OnInit {
 
   constructor(private httpClient: HttpClient, private router:Router,private fb:FormBuilder) { }
-
+ 
   position:number[] = [250,520,250,200,630,130];
   devices:Device[];
   SERVER_URL: string = 'https://luxo-api-test.azurewebsites.net/api/Devices/';
