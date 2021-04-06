@@ -1,1 +1,11 @@
 <h1>Devices</h1>
+<p>
+    <button type="button" (click)="goToSchedules()">add Schedule</button>
+</p>
+<div  *ngFor="let schedule of this.devices; let i = index">
+    <div >
+      {{i}}
+      Device name : {{schedule.name}}
+      <button type="button" (click)="editDevice(i)">Edit</button>
+    </div>
+</div>

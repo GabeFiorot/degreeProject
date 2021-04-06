@@ -5,7 +5,9 @@ import {SchedulePeriod} from "./SchedulePeriod";
 export class Device{
     
     deviceId?:number;
-    Name: String;
+    name: String;
+    DeviceGuid?: String;
+    Owner?:number;
     schedules: Schedule[];
     room: Room;
 
@@ -15,7 +17,7 @@ export class Device{
             {
                 var obj = json;
                 this.deviceId = obj.deviceId;
-                this.Name = obj.Name;
+                this.name = obj.name;
                 this.room = obj.room;
             }
     }

@@ -1,7 +1,7 @@
 <div class="split left">
   <div class="centered">
     
-    <form [formGroup]="deviceForm" (ngSubmit)="onFormSubmit()" >
+    <form [formGroup]="deviceForm" (ngSubmit)="submitDevice()" >
       <h1>Device Configuration</h1>
       <label>
         Device Name:
@@ -61,7 +61,7 @@
       <br>
     </div>
     
-      <form [formGroup]="scheduleForm" (ngSubmit)="onFormSubmit()" >
+      <form [formGroup]="scheduleForm" (ngSubmit)="submitSchedule()" >
         <h1>Create Schedule</h1>
         <label>
           Schedule Name:
