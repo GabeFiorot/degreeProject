@@ -9,6 +9,7 @@ import { Device } from '../Device';
 import { Time } from '@angular/common';
 import { splitAtColon } from '@angular/compiler/src/util';
 import { LightConfig } from '../LightConfig';
+import { Router } from '@angular/router';
 //import { Console } from 'node:console';
 
 @Component({
@@ -27,9 +28,10 @@ export class ScheduleBuilderComponent implements OnInit
   list:number[] = [1,2,3,4,5];
   sched: Schedule;
   device : Device;
+  token: string;
   currentDevice:number;
   currentSchedule:number;
-  constructor(private httpClient: HttpClient, private fb:FormBuilder) {}
+  constructor(private httpClient: HttpClient, private fb:FormBuilder, private router:Router) {}
 
   ngOnInit()
   {
@@ -37,7 +39,7 @@ export class ScheduleBuilderComponent implements OnInit
     //this.sched.periods = [];
     //this.sched.lightConfigs = [];
     //this.device = JSON.parse("{\"DeviceId\":0,\"Name\":\"liveapidevice\",\"room\":{\"roomWidth\":12,\"roomHeight\":10},\"schedules\":[{\"name\":\"testsched\",\"delay\":100,\"intensity\":255,\"lightConfigs\":[{\"lightPort\":1,\"sensorPorts\":[{\"port\":3},{\"port\":4}]},{\"lightPort\":2,\"sensorPorts\":[{\"port\":5},{\"port\":6}]}],\"periods\":[{\"startTime\":{\"hours\":8,\"minutes\":22},\"endTime\":{\"hours\":9,\"minutes\":35},\"duration\":0},{\"startTime\":{\"hours\":13,\"minutes\":45},\"endTime\":{\"hours\":15,\"minutes\":21},\"duration\":0}]}]}");
-    
+    this.token = history.state.data.token;
     this.currentDevice = history.state.data.deviceIndex;
     this.getDevice(this.currentDevice);
     /*
@@ -308,6 +310,11 @@ export class ScheduleBuilderComponent implements OnInit
     }
   }
 
+  goToDevices()
+  {
+    this.router.navigate(['/devices'], {state: {data: {token : this.token}}});
+  }
+
   submitDevice()
   {
 
@@ -322,6 +329,7 @@ export class ScheduleBuilderComponent implements OnInit
     {
       this.updateDeviceOnServer(this.device);
     }
+    
   }
 
   submitSchedule() {
@@ -376,7 +384,10 @@ export class ScheduleBuilderComponent implements OnInit
         this.httpClient
         // note that you gotta put the schedule id in the url string
         .put<any>(this.DEVICE_URL + updatedDevice.deviceId.toString(), updatedDevice)
-        .subscribe(res => console.log(res), err => console.log(err));
+        .subscribe(res => {
+          console.log(res);
+          this.goToDevices();
+        }, err => console.log(err));
   }
   addDeviceToServer(newDevice:Device){
   // this should get the add code eventually
@@ -384,7 +395,9 @@ export class ScheduleBuilderComponent implements OnInit
         console.log(newDevice);
         this.httpClient
         .post<any>(this.DEVICE_URL, newDevice)
-        .subscribe(res => console.log(res), err => console.log(err));
+        .subscribe(res => {
+          console.log(res);
+        this.goToDevices();}, err => console.log(err));
   }
 
 
