@@ -1,17 +1,15 @@
 <h1>Login</h1>
 
-<div class="container" style='position:relative;'>
-    <img src="https://i.pinimg.com/originals/c8/d7/38/c8d738c2ba0e47f58c7a117c9b024233.png" alt="floor-map">
 
-    <button class="btn1" style='position:absolute; left:{{position[0]}}px; top:{{position[1]}}px' type='button'>
-        <a class="nav-item nav-link" routerLink="/devices">Device 1</a>
-    </button>
-    
-    <button class="btn2" style='position:absolute; left:{{position[2]}}px; top:{{position[3]}}px' type='button'>
-        <a class="nav-item nav-link" routerLink="/devices">Device 2</a>
-    </button>
-   
-    <button class="btn3" style='position:absolute; left:{{position[4]}}px; top:{{position[5]}}px' type='button'>
-        <a class="nav-item nav-link" routerLink="/devices">Device 3</a>
-    </button>
-</div>
+<form [formGroup]="loginForm" (ngSubmit)="tryLogin()" >
+    <h1>Login</h1>
+    <label>
+      Username:
+      <input type="text" formControlName="username"  required>
+    </label>
+    <label>
+     Password:
+      <input type="password" formControlName="password" >
+    </label>
+    <button type="submit">Submit</button>
+  </form>

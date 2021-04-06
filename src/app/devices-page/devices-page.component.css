@@ -60,3 +60,157 @@ button:hover{
     display: inline-block;
     margin: 2px;
   }
+
+  div{
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+label{
+    margin: 2px;
+    width: 200px;
+    display: inline-block;
+    text-align: left;
+    padding-left: 3px;
+}
+
+
+form{
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+h2{
+    margin-top: 2px;
+    margin-left: 2px;
+}
+
+h1{
+    margin-top: 2px;
+    margin-left: 2px;
+    padding-left: 3px;
+}
+
+button{
+    background-color: rgb(80, 80, 80);
+    border: none;
+    color: white;
+    padding: 3px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border-radius: 3px;
+    transition-duration: 0.1s;
+  }
+
+button:hover{
+    background-color: rgb(151, 151, 151); 
+    color: white;
+    border: 5% solid rgb(80, 80, 80);
+  }
+
+  input {
+    width: 200px;
+    display: inline-block;
+    margin: 2px;
+  }
+
+  /* Container needed to position the button. Adjust the width as needed */
+.container {
+    position: relative;
+    width: 50%;
+  }
+  
+  /* Make the image responsive */
+  .container img {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Style the button and place it in the middle of the container/image */
+  .container .btn1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: rgb(80, 80, 80);
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 3px;
+    position: absolute;
+    /*left: 250px;
+    top: 520px;*/
+  }
+  
+  .container .btn1:hover {
+    background-color: rgb(151, 151, 151);
+  }
+
+  .container .btn2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: rgb(80, 80, 80);
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 3px;
+    position: absolute;
+    /*left: 250px;
+    top: 200px;*/
+  }
+  
+  .container .btn2:hover {
+    background-color: rgb(151, 151, 151);
+  }
+
+  .container .btn3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: rgb(80, 80, 80);
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 3px;
+    position: absolute;
+    /*left: 630px;
+    top: 130px;*/
+  }
+  
+  
+  .container .btn3:hover {
+    background-color: rgb(151, 151, 151);
+  }
+
+  a{
+    color: white;
+    text-decoration: none;
+  }
+
+
+  
