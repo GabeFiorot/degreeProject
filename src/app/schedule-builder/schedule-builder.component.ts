@@ -339,6 +339,7 @@ export class ScheduleBuilderComponent implements OnInit
     
   }
 
+  
   submitSchedule() {
 
     var newSchedule:Schedule;
