@@ -1,6 +1,28 @@
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 0px;
+}
+
+/* Control the left side */
+.left {
+  left: 0;
+  background-color: white;
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  background-color: rgb(255, 255, 255);
+}
+
 div{
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
     padding-bottom: 2px;
     padding-top: 2px;
 }
@@ -32,6 +54,24 @@ h1{
     padding-left: 3px;
 }
 
+h1.TopBar{
+  margin-top: 0px;
+  margin-left: 0px;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 5px;
+}
+
+h1.TopBar2{
+  margin-top: 0px;
+  margin-left: 0px;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 5px;
+  color: rgb(50, 50, 50);
+  background-color: rgb(50, 50, 50);
+}
+
 button{
     background-color: rgb(80, 80, 80);
     border: none;
@@ -61,12 +101,6 @@ button:hover{
     margin: 2px;
   }
 
-  div{
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-bottom: 2px;
-    padding-top: 2px;
-}
 
 label{
     margin: 2px;
@@ -127,7 +161,7 @@ button:hover{
   /* Container needed to position the button. Adjust the width as needed */
 .container {
     position: relative;
-    width: 50%;
+    width: 100%;
   }
   
   /* Make the image responsive */
@@ -226,12 +260,10 @@ a{
 a:link, a:visited {
     background-color: rgb(80, 80, 80);
     color: white;
-    padding: 10px 25px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     border-radius: 3px;
-    transition-duration: 0.1s;
   }
   
   a:hover, a:active {

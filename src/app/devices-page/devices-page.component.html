@@ -1,29 +1,38 @@
-
-<h1>Devices</h1>
-<p>
-    <button type="button" (click)="goToSchedules()">add Schedule</button>
-</p>
-<div  *ngFor="let schedule of this.devices; let i = index">
-    <div >
-      {{i}}
-      Device name : {{schedule.name}}
-      <button type="button" (click)="editDevice(i)">Edit</button>
+<div class="split left">
+    <h1 class="TopBar">LUXO</h1>
+    <div class="centered">
+        <h1>Devices</h1>
+        <p>
+        <button type="button" (click)="goToSchedules()">add Schedule</button>
+        </p>
+        <div  *ngFor="let schedule of this.devices; let i = index">
+            <div >
+                {{i}}
+                Device name : {{schedule.name}}
+                <button type="button" (click)="editDevice(i)">Edit</button>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="container" style='position:relative;'>
-    <img src="https://i.pinimg.com/originals/c8/d7/38/c8d738c2ba0e47f58c7a117c9b024233.png" alt="floor-map">
+<div class="split right">
+    <h1 class="TopBar2">Help.</h1>
+    <div class="centered">
+        <div class="container" style='position:relative;'>
+            <img src="https://i.pinimg.com/originals/c8/d7/38/c8d738c2ba0e47f58c7a117c9b024233.png" alt="floor-map">
 
-    <button class="btn1" style='position:absolute; left:{{position[0]}}px; top:{{position[1]}}px' type='button'>
-        <a class="nav-item nav-link" routerLink="/devices">Device 1</a>
-    </button>
+            <button class="btn1" style='position:absolute; left:{{position[0]}}px; top:{{position[1]}}px' type='button'>
+                <a class="nav-item nav-link" routerLink="/devices">Device 1</a>
+            </button>
     
-    <button class="btn2" style='position:absolute; left:{{position[2]}}px; top:{{position[3]}}px' type='button'>
-        <a class="nav-item nav-link" routerLink="/devices">Device 2</a>
-    </button>
+            <button class="btn2" style='position:absolute; left:{{position[2]}}px; top:{{position[3]}}px' type='button'>
+                <a class="nav-item nav-link" routerLink="/devices">Device 2</a>
+            </button>
    
-    <button class="btn3" style='position:absolute; left:{{position[4]}}px; top:{{position[5]}}px' type='button'>
-        <a class="nav-item nav-link" routerLink="/devices">Device 3</a>
-    </button>
+            <button class="btn3" style='position:absolute; left:{{position[4]}}px; top:{{position[5]}}px' type='button'>
+                <a class="nav-item nav-link" routerLink="/devices">Device 3</a>
+            </button>
+        </div>
+    </div>
 </div>
 
