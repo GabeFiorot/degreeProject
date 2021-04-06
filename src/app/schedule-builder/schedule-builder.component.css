@@ -116,19 +116,6 @@ a{
     margin-left: 5px;
     margin-right: 5px;
     color: white;
-}
-
-a:link, a:visited {
-    background-color: rgb(80, 80, 80);
-    color: white;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 3px;
-    transition-duration: 0.1s;
-  }
-  
-  a:hover, a:active {
-    background-color: rgb(151, 151, 151);
-  }
+}
