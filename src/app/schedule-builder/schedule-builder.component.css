@@ -60,7 +60,7 @@ h1.TopBar{
     margin-left: 0px;
     padding-left: 20px;
     padding-top: 20px;
-    padding-bottom: 5px;
+    padding-bottom: 20px;
 }
 
 h1.TopBar2{
@@ -68,7 +68,7 @@ h1.TopBar2{
     margin-left: 0px;
     padding-left: 20px;
     padding-top: 20px;
-    padding-bottom: 5px;
+    padding-bottom: 20px;
     color: rgb(50, 50, 50);
     background-color: rgb(50, 50, 50);
 }
